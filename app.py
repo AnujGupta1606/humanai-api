@@ -117,7 +117,7 @@ def create_incident():
         send_email(
             subject='High Severity Incident Reported',
             body=f"Title: {data['title']}\nDescription: {data['description']}",
-            to_email='admin@example.com'  # Change to your admin email
+            to_email='satyam2465@gmail.com'  # Your admin email
         )
     return jsonify(incident.to_dict()), 201
 
@@ -172,8 +172,8 @@ def incident_analytics():
     })
 
 def send_email(subject, body, to_email):
-    from_email = 'your_email@example.com'
-    password = 'your_email_password'
+    from_email = 'satyam2465@gmail.com'
+    password = 'humanai-api'
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = from_email
