@@ -4,6 +4,8 @@ from datetime import datetime
 from functools import wraps
 from flask import request, Response
 from flasgger import Swagger
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 Swagger(app)
@@ -110,6 +112,13 @@ def create_incident():
     )
     db.session.add(incident)
     db.session.commit()
+    # Send email if severity is High
+    if data['severity'] == 'High':
+        send_email(
+            subject='High Severity Incident Reported',
+            body=f"Title: {data['title']}\nDescription: {data['description']}",
+            to_email='admin@example.com'  # Change to your admin email
+        )
     return jsonify(incident.to_dict()), 201
 
 @app.route('/incidents/<int:incident_id>', methods=['GET'])
@@ -149,6 +158,32 @@ def delete_incident(incident_id):
     db.session.delete(incident)
     db.session.commit()
     return jsonify({'message': 'Incident deleted'}), 200
+
+@app.route('/incidents/analytics', methods=['GET'])
+@requires_auth
+def incident_analytics():
+    total = Incident.query.count()
+    by_severity = db.session.query(Incident.severity, db.func.count(Incident.id)).group_by(Incident.severity).all()
+    by_month = db.session.query(db.func.strftime('%Y-%m', Incident.reported_at), db.func.count(Incident.id)).group_by(db.func.strftime('%Y-%m', Incident.reported_at)).all()
+    return jsonify({
+        'total_incidents': total,
+        'incidents_by_severity': {sev: count for sev, count in by_severity},
+        'incidents_by_month': {month: count for month, count in by_month}
+    })
+
+def send_email(subject, body, to_email):
+    from_email = 'your_email@example.com'
+    password = 'your_email_password'
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = from_email
+    msg['To'] = to_email
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(from_email, password)
+            server.sendmail(from_email, [to_email], msg.as_string())
+    except Exception as e:
+        print(f'Email failed: {e}')
 
 if __name__ == '__main__':
     import os
