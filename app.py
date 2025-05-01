@@ -173,7 +173,7 @@ def incident_analytics():
 
 def send_email(subject, body, to_email):
     from_email = 'satyam2465@gmail.com'
-    password = 'humanai-api'
+    password = 'hevqJhesdavqaxsk'
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = from_email
