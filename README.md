@@ -14,7 +14,8 @@ A full-stack application for logging, analyzing, and managing AI safety incident
 ### Frontend (React + Material-UI)
 - **Modern Dashboard UI**: Clean, responsive interface using Material-UI.
 - **Incident List**: Card-based display of all incidents with severity chips and timestamps.
-- **Analytics Dashboard**: Interactive charts (bar and pie) for incidents by month and severity using Chart.js.
+- **Create, Read, Delete Incidents**: Add and remove incidents directly from the dashboard.
+- **Live Analytics Dashboard**: Interactive charts (bar and pie) for incidents by month and severity using Chart.js, auto-refreshing after incident changes.
 - **Error Handling & Loading States**: User-friendly feedback for API errors and loading.
 
 ## How to Run
