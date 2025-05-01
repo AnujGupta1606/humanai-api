@@ -6,8 +6,9 @@ from flask import request, Response
 from flasgger import Swagger
 import smtplib
 from email.mime.text import MIMEText
-
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 Swagger(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///incidents.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
