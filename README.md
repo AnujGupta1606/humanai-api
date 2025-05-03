@@ -39,4 +39,4 @@ A full-stack application for logging, analyzing, and managing AI safety incident
 
 ---
 
-Feel free to add more details or sections as your project grows!
+
